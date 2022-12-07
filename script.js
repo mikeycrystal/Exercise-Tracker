@@ -94,9 +94,6 @@ class App {
   _loadMap(position) {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
-    console.log(latitude, longitude);
-    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
-
     const coords = [latitude, longitude];
 
     this.#map = L.map('map').setView(coords, this.#mapZoom);
@@ -255,7 +252,6 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
 
     if (!workoutEl) return;
 
@@ -273,6 +269,8 @@ class App {
     });
   }
 
+  /* make sure the app stores workouts even if I close the tab or reload the page */
+
   _setLocalStorage() {
     localStorage.setItem('workouts', JSON.stringify(this.#workouts));
   }
@@ -288,6 +286,8 @@ class App {
       this._renderWorkout(workout);
     });
   }
+
+  /* use app.reset() in the console to delete the local storage */
 
   reset() {
     localStorage.removeItem('workouts');

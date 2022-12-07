@@ -1,12 +1,12 @@
 :root {
-  --color-brand--1: #ffb545;
-  --color-brand--2: #00c46a;
+  --color-brand--1: #5b45ff;
+  --color-brand--2: #eee20e;
 
-  --color-dark--1: #2d3439;
+  --color-dark--1: #030303;
   --color-dark--2: #42484d;
   --color-light--1: #aaa;
   --color-light--2: #ececec;
-  --color-light--3: rgb(214, 222, 224);
+  --color-light--3: rgb(100, 95, 95);
 }
 
 * {
@@ -164,7 +164,7 @@ a:visited {
 
 .form__input:focus {
   outline: none;
-  background-color: #fff;
+  background-color: rgb(248, 245, 245);
 }
 
 .form__btn {
