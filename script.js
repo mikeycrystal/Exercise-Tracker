@@ -1,15 +1,18 @@
 'use strict';
 
+// Creates a workout class. Declares a new Date and an id which is the date including month, day, year, and minute.
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
 
+  // Constructor method.
   constructor(coords, distance, duration) {
     this.coords = coords;
     this.distance = distance;
     this.duration = duration;
   }
 
+  // Method that creates the type of workout (running or cycling) based on the type of the workout, the month of the workout and the day of the workout.
   _setDescription() {
     // prettier-ignore
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -20,9 +23,11 @@ class Workout {
   }
 }
 
+// Child class of the workout class for the running exercise.
 class Running extends Workout {
   type = 'running';
 
+  // Constructor method.
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
     this.cadence = cadence;
@@ -30,15 +35,18 @@ class Running extends Workout {
     this._setDescription();
   }
 
+  // Calculates the pace of the run.
   calcPace() {
     this.pace = this.duration / this.distance;
     return this.pace;
   }
 }
 
+// Child class of the workout class for the cycling exercise.
 class Cycling extends Workout {
   type = 'cycling';
 
+  // Constructor Method.
   constructor(coords, distance, duration, elevation) {
     super(coords, distance, duration);
     this.elevation = elevation;
@@ -46,6 +54,7 @@ class Cycling extends Workout {
     this._setDescription();
   }
 
+  // Calculates the speed of the ride.
   calcSpeed() {
     this.speed = this.distance / (this.duration / 60);
     return this.speed;
@@ -54,6 +63,7 @@ class Cycling extends Workout {
 
 ////////////////////////////////////////////////////
 
+//creates variables that we can use for DOM manipulation.
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -63,12 +73,14 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const formBtn = document.querySelector('form__btn');
 
+// New parent class that creates the App. Declares 4 private properties.
 class App {
   #map;
   #mapEvent;
   #mapZoom = 13;
   #workouts = [];
 
+  // Constructor Method
   constructor() {
     this._getPosition();
 
@@ -81,6 +93,7 @@ class App {
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
+  //Gets the position current position of the user by using the _loadMap function.
   _getPosition() {
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition(
@@ -91,6 +104,7 @@ class App {
       );
   }
 
+  // Loads a map using the leaflet library. On a click, shows a workout form. Renders each of the workouts.
   _loadMap(position) {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
@@ -110,12 +124,14 @@ class App {
     });
   }
 
+  // Displays the form upon a click. Does this by removing the hidden class from the html.
   _showForm(mapE) {
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
     inputDistance.focus();
   }
 
+  // Hides the form by readding the hidden class.
   _hideForm() {
     inputDistance.value =
       inputDuration.value =
@@ -128,6 +144,7 @@ class App {
     setTimeout(() => (form.style.display = 'grid'), 1000);
   }
 
+  //
   _toggleElevationField() {
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
